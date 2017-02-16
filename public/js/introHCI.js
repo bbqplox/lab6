@@ -27,6 +27,14 @@ function addProjectDetails(e) {
 	var idNumber = projectID.substr('project'.length);
 
 	console.log("User clicked on project " + idNumber);
+	console.log($.get("project/" + idNumber,
+		function(result){
+			var projectHTML =
+				'<img class="detailsImage" src="' + result['image'] + '"></img>' +
+				'<p>' + result['summary'] + '</p>';
+				$( '#' + projectID + ' .details').html(projectHTML);
+		})
+	);
 }
 
 /*
@@ -35,4 +43,12 @@ function addProjectDetails(e) {
  */
 function randomizeColors(e) {
 	console.log("User clicked on color button");
+	$.get("/palette", function(data){
+		console.log(data);
+		$('body').css('background-color', data.colors.hex[0]);
+		$('.thumbnail').css('background-color', data.colors.hex[1]);
+		$('h1, h2, h3, h4, h5, h5').css('color', data.colors.hex[2]);
+		$('p').css('color', data.colors.hex[3]);
+		$('.project img').css('opacity', .75);
+	});
 }
